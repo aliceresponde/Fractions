@@ -1,6 +1,6 @@
 package com.com.aliceresponde.fraction.utils;
 
-import com.alicersponde.fraction.Fraction;
+import com.aliceresponde.fraction.Fraction;
 
 public final class Calculate {
 
@@ -43,16 +43,17 @@ public final class Calculate {
         int mcd = mcd(fraction);
         int newNumerator = fraction.getNumerator() / mcd;
         int newDenominador = fraction.getDenominator() / mcd;
-        return new Fraction(newNumerator, newDenominador);
+
+        return new Fraction.Builder().withNumerator(newNumerator).withDenominator(newDenominador).build();
     }
 
-    public static Fraction add(final Fraction fractionA, final Fraction fractionB){
-        int newDenominator = mcm(fractionA.getDenominator(),fractionB.getDenominator());
-        int a =  (fractionB.getDenominator()/newDenominator) * fractionA.getNumerator() ;
-        int b =  (fractionA.getDenominator()/newDenominator) * fractionB.getNumerator();
+    public static Fraction add(final Fraction fractionA, final Fraction fractionB) {
+        int newDenominator = mcm(fractionA.getDenominator(), fractionB.getDenominator());
+        int a = (newDenominator / fractionA.getDenominator()) * fractionA.getNumerator();
+        int b = (newDenominator / fractionB.getDenominator()) * fractionB.getNumerator();
         int newNumerator = a + b;
-        return  new Fraction(newNumerator, newDenominator);
 
+        return new Fraction.Builder().withNumerator(newNumerator).withDenominator(newDenominator).build();
     }
 
 }
