@@ -4,7 +4,7 @@ import com.com.aliceresponde.fraction.utils.Calculate;
 import com.google.common.base.Preconditions;
 
 /**
- *  NOTE : Denominator cant be ZERO
+ *  NOTE : Denominator cant be ZERO or NEGATIVE
  */
 public final class Fraction {
 
@@ -27,12 +27,24 @@ public final class Fraction {
         return numerator;
     }
 
-    public Fraction simplity() {
+    public Fraction add(final Fraction fractionB) {
+        return Calculate.add(this, fractionB);
+    }
+
+    public Fraction minus(final Fraction otherFraction){
+        return   Calculate.minus(this, otherFraction);
+    }
+
+    public Fraction simplify() {
         return Calculate.simplify(this);
     }
 
-    public Fraction add(Fraction fractionB) {
-        return Calculate.add(this, fractionB);
+    public Fraction multiply(Fraction fractionB) {
+        return  Calculate.multiply(this, fractionB);
+    }
+
+    public Fraction divide(Fraction fractionB) {
+        return  Calculate.divide(this, fractionB);
     }
 
     public static class Builder {
@@ -46,14 +58,22 @@ public final class Fraction {
         }
 
         public Builder withDenominator(final int denominator) {
+            Preconditions.checkArgument(denominator >= 0, "Denominator must be different to zero");
             this.denominator = denominator;
             return this;
         }
 
         public Fraction build() {
-            Preconditions.checkArgument(denominator != 0, "Denominator must be different to zero");
             return new Fraction(this);
         }
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        Fraction fractionA = this.simplify();
+        Fraction fractionB = ((Fraction) other).simplify();
+
+        return fractionA.denominator == fractionB.denominator && fractionB.numerator == fractionA.numerator;
     }
 
     @Override
