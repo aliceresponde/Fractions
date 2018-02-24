@@ -6,7 +6,7 @@ import com.google.common.base.Preconditions;
 /**
  *  NOTE : Denominator cant be ZERO or NEGATIVE
  */
-public final class Fraction {
+public class Fraction {
 
     public static final int ZERO = 0;
     public static final String FRACTION_FORMAT = "%d/%d";
@@ -49,16 +49,15 @@ public final class Fraction {
 
     public static class Builder {
         private int numerator;
-        private int denominator;
+        private int denominator = 1;
 
         public Builder withNumerator(final int numerator) {
             this.numerator = numerator;
-            this.denominator = 1;
             return this;
         }
 
         public Builder withDenominator(final int denominator) {
-            Preconditions.checkArgument(denominator >= 0, "Denominator must be different to zero");
+            Preconditions.checkArgument( denominator >= 0, "Denominator must be different to zero");
             this.denominator = denominator;
             return this;
         }

@@ -19,12 +19,15 @@ public class FractionTest {
         Assert.assertEquals("3/5", simplifiedFraction.toString());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class )
     public void createFractionWithDenominatorZero(){
         Fraction fraction = new Fraction.Builder()
                                         .withNumerator (2520)
                                         .withDenominator(0)
                                         .build();
+
+
+
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -2,8 +2,6 @@ package com.com.aliceresponde.fraction.utils;
 
 import com.aliceresponde.fraction.Fraction;
 
-import java.util.Comparator;
-
 public final class Calculate {
 
     private Calculate() {
@@ -70,17 +68,27 @@ public final class Calculate {
         return simplify(result);
     }
 
-    public static Fraction minus(final Fraction fractionA, final Fraction fractionB) {
-        int newDenominator = mcm(fractionA.getDenominator(), fractionB.getDenominator());
-        int a = (newDenominator / fractionA.getDenominator()) * fractionA.getNumerator();
-        int b = (newDenominator / fractionB.getDenominator()) * fractionB.getNumerator();
-        int newNumerator = a - b;
-
-        Fraction result = new Fraction.Builder().withNumerator(newNumerator).withDenominator(newDenominator).build();
-
-        return simplify(result);
+    public static Fraction makeNegative(final Fraction fraction) {
+        return new Fraction.Builder().withNumerator(-fraction.getNumerator())
+                .withDenominator(fraction.getDenominator()).build();
     }
 
+    /**
+     *   A + (-B)
+     * @param fractionA
+     * @param fractionB
+     * @return
+     */
+    public static Fraction minus(final Fraction fractionA, final Fraction fractionB) {
+        return simplify(add(fractionA, makeNegative(fractionB)));
+    }
+
+    /**
+     *  A * B
+     * @param fractionA
+     * @param fractionB
+     * @return
+     */
     public static Fraction multiply(final Fraction fractionA, final Fraction fractionB) {
         int numerator = fractionA.getNumerator() * fractionB.getNumerator();
         int denominator = fractionA.getDenominator() * fractionB.getDenominator();
@@ -89,11 +97,26 @@ public final class Calculate {
         return simplify(result);
     }
 
-    public static Fraction divide(final Fraction fractionA, final Fraction fractionB) {
-        int numerator = fractionA.getNumerator() * fractionB.getDenominator();
-        int denominator = fractionA.getDenominator() * fractionB.getNumerator();
+    /**
+     * 1/(a/b)  --- > b/a
+     * @param fraction
+     * @return
+     */
+    public static Fraction invert(final Fraction fraction) {
+        return new Fraction.Builder()
+                .withNumerator(fraction.getDenominator())
+                .withDenominator(fraction.getNumerator())
+                .build();
+    }
 
-        Fraction result = new Fraction.Builder().withNumerator(numerator).withDenominator(denominator).build();
+    /**
+     *  A * 1/B
+     * @param fractionA
+     * @param fractionB
+     * @return
+     */
+    public static Fraction divide(final Fraction fractionA, final Fraction fractionB) {
+        Fraction result = multiply(fractionA, invert(fractionB));
         return simplify(result);
     }
 }
